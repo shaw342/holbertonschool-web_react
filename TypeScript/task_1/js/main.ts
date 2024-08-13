@@ -20,4 +20,28 @@ function printTeacher(firstName: string, lastName: string,): string {
     return `${firstName[0]}.${lastName}`
 }
 
-console.log(printTeacher("John", "Doe"));
+
+interface StudentConstructor {
+    new (firstName: string, lastName: string): StudentInterface;
+}
+
+interface StudentInterface {
+    workOnHomework(): string;
+    displayName(): string;
+}
+
+class StudentClass implements StudentInterface{
+    firstName: string
+    lastName:string
+    constructor( firstName:string,lastName:string) {
+        this.firstName = firstName,
+        this.lastName = lastName
+    }
+    workOnHomework():string{
+        return "Currently working"
+    }
+    displayName(){
+        return this.firstName
+    }
+
+}
