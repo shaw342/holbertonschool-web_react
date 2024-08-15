@@ -34,19 +34,18 @@ class Director implements DirectorInterface {
 }
 
 function createEmployee(salary: number | string): DirectorInterface | TeacherInterface {
-    // Extraire et convertir la valeur numérique de la chaîne
     const numericSalary = typeof salary === 'number' ? salary : parseFloat(salary.toString().replace(/[^0-9.-]+/g, ''));
 
     if (typeof numericSalary === 'number' && numericSalary < 500) {
-        return new Teacher();
+        return new Teacher;
     } else {
-        return new Director();
+        return new Director;
     }
 }
 
 
 function isDirector(employee: DirectorInterface | TeacherInterface): employee is DirectorInterface {
-    return (employee as DirectorInterface).workDirectorTasks !== undefined;
+    return (employee as unknown as DirectorInterface).workDirectorTasks !== undefined;
 }
 
 function executeWork(employee: DirectorInterface | TeacherInterface): string {
@@ -56,5 +55,5 @@ function executeWork(employee: DirectorInterface | TeacherInterface): string {
         return employee.workTeacherTasks();
     }
 }
-executeWork(createEmployee(200));
-executeWork(createEmployee(1000));
+
+
