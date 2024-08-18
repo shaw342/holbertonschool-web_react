@@ -8,7 +8,7 @@ $(document).ready(function() {
     $("body").append("<p id='count'></p>");
 
     let count = 0;
-    function updataCounter() {
+    function updateCounter() {
         count++;
         $("p").text(`${count} clicks on the button`)
     }
