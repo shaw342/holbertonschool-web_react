@@ -6,7 +6,7 @@ describe('App', () => {
     it('that App renders without crashing', () => {
         const wrapper = shallow(<App />);
         expect(wrapper.exists()).toBe(true);
-  });
+    });
 
     it('renders a div with the class App-header', () => {
         const wrapper = shallow(<App />);
