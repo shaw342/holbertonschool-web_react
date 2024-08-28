@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/shaw342/holbertonschool-web_react.git/static/css/main.f543dc9d.css",
-    "main.js": "/shaw342/holbertonschool-web_react.git/static/js/main.52913295.js",
-    "static/media/logo.jpg": "/shaw342/holbertonschool-web_react.git/static/media/logo.24bab5d633e36ca8d17e.jpg",
-    "index.html": "/shaw342/holbertonschool-web_react.git/index.html",
-    "main.f543dc9d.css.map": "/shaw342/holbertonschool-web_react.git/static/css/main.f543dc9d.css.map",
-    "main.52913295.js.map": "/shaw342/holbertonschool-web_react.git/static/js/main.52913295.js.map"
+    "main.css": "/holbertonschool-web_react/static/css/main.f543dc9d.css",
+    "main.js": "/holbertonschool-web_react/static/js/main.7dac1682.js",
+    "static/media/logo.jpg": "/holbertonschool-web_react/static/media/logo.24bab5d633e36ca8d17e.jpg",
+    "index.html": "/holbertonschool-web_react/index.html",
+    "main.f543dc9d.css.map": "/holbertonschool-web_react/static/css/main.f543dc9d.css.map",
+    "main.7dac1682.js.map": "/holbertonschool-web_react/static/js/main.7dac1682.js.map"
   },
   "entrypoints": [
     "static/css/main.f543dc9d.css",
-    "static/js/main.52913295.js"
+    "static/js/main.7dac1682.js"
   ]
 }
