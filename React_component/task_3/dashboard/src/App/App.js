@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './App.css';
 import Header from '../Header/Header';
@@ -6,8 +6,10 @@ import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import Notifications from '../Notifications/Notifications';
+import BodySection from '../BodySection/BodySection';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,17 +24,19 @@ class App extends React.Component {
         { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } }
       ]
     };
+
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener("keydown", this.handleKeyDown);
+    window.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("keydown", this.handleKeyDown);
+    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  handleKeyDown = (event) => {
+  handleKeyDown(event) {
     if (event.ctrlKey && event.key === 'h') {
       event.preventDefault();
       alert('Logging you out');
@@ -41,14 +45,27 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoggedIn, logOut } = this.props;
+    const { isLoggedIn } = this.props;
+    const { listCourses, listNotifications } = this.state;
+
     return (
       <>
         <div className="App">
-          <Notifications listNotifications={this.state.listNotifications} />
+          <Notifications listNotifications={listNotifications}/>
           <Header />
           <div className="App-body">
-            {isLoggedIn ? <CourseList listCourses={this.state.listCourses} /> : <Login logOut={logOut} />}
+            {isLoggedIn ? (
+              <BodySectionWithMarginBottom title="Course list">
+                <CourseList listCourses={listCourses} />
+              </BodySectionWithMarginBottom>
+            ) : (
+              <BodySectionWithMarginBottom title="Log in to continue">
+                <Login />
+              </BodySectionWithMarginBottom>
+            )}
+            <BodySection title="News from the School">
+              <p>Keep up to date with the latest news from our school by checking back here regularly for updates and announcements.</p>
+            </BodySection>
           </div>
           <Footer />
         </div>
