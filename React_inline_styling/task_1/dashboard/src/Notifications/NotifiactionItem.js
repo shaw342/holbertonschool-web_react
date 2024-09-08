@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function NotificationItem({ type, html, value }) {
+function NotificationItem({ type = 'default', html, value, markAsRead, id }) {
   const liProps = {
-    "data-priority": type
+    "data-priority": type,
+    onClick: () => markAsRead(id)
   };
 
   if (html) {
@@ -12,15 +13,19 @@ function NotificationItem({ type, html, value }) {
     liProps.children = value;
   }
 
-  return (
-    <li {...liProps} />
-  );
+  return <li {...liProps} />;
 }
 
 NotificationItem.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   html: PropTypes.shape({ __html: PropTypes.string }),
-  value: PropTypes.string
+  value: PropTypes.string,
+  markAsRead: PropTypes.func.isRequired,
+  id: PropTypes.number
 };
 
-export default NotificationItem;
+NotificationItem.defaultProps = {
+  type: 'default'
+};
+
+export default React.memo(NotificationItem);
