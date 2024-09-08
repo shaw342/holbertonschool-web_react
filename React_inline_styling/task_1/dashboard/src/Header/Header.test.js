@@ -1,15 +1,24 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Header from './Header';
+import Login from './Login';
+import { StyleSheetTestUtils } from 'aphrodite';
 
-describe('Header', () => {
-  it('renders without crashing', () => {
-    shallow(<Header />);
+describe('Login', () => {
+
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
   });
 
-  it('renders an img and h1 tags', () => {
-    const wrapper = shallow(<Header />);
-    expect(wrapper.find('img').length).toEqual(1);
-    expect(wrapper.find('h1').length).toEqual(1);
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+  it('renders without crashing', () => {
+    shallow(<Login />);
+  });
+
+  it('renders 2 input tags and 2 label tags', () => {
+    const wrapper = shallow(<Login />);
+    expect(wrapper.find('input').length).toEqual(2);
+    expect(wrapper.find('label').length).toEqual(2);
   });
 });
