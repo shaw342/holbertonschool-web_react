@@ -23,10 +23,13 @@ class App extends Component {
         { id: 2, type: 'urgent', value: 'New resume available' },
         { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } }
       ],
-      displayDrawer: false
+      displayDrawer: false,
     };
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
+    this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    
   }
 
   componentDidMount() {
@@ -44,25 +47,29 @@ class App extends Component {
       this.props.logOut();
     }
   }
-  handleDisplayDrawer(){
-    this.setState({
-      displayDrawer:true
-    })
+  handleDisplayDrawer() {
+    this.setState({ displayDrawer: true });
   }
-  handleHideDrawer(){
-    this.setState({
-      displayDrawer:false
-    })
+
+  handleHideDrawer() {
+    this.setState({ displayDrawer: false });
   }
+
   render() {
     const { isLoggedIn } = this.props;
-    const { listCourses, listNotifications } = this.state;
+    const { listCourses, listNotifications, displayDrawer } = this.state;
+    const appStyle = displayDrawer ? styles.appHidden : styles.app;
 
     return (
       <>
-        <div className={css(styles.app)}>
-          <Notifications listNotifications={listNotifications} displayDrawer={this.state.displayDrawer}/>
-          <Header />
+        <div className={css(appStyle)}>
+        <Notifications 
+          listNotifications={listNotifications} 
+          displayDrawer={displayDrawer} 
+          handleDisplayDrawer={this.handleDisplayDrawer} 
+          handleHideDrawer={this.handleHideDrawer} 
+        />
+        <Header />
           <div className={css(styles.appBody)}>
             {isLoggedIn ? (
               <BodySectionWithMarginBottom title="Course list">
@@ -87,13 +94,11 @@ class App extends Component {
 App.propTypes = {
   isLoggedIn: PropTypes.bool,
   logOut: PropTypes.func,
-  displayDrawer:PropTypes.bool
 };
 
 App.defaultProps = {
   isLoggedIn: false,
   logOut: () => {},
-  displayDrawer:PropTypes.bool
 };
 
 const styles = StyleSheet.create({
@@ -102,11 +107,15 @@ const styles = StyleSheet.create({
     padding: 0,
     boxSizing: 'border-box',
   },
+  appHidden: {
+    display: 'none',
+    '@media (min-width: 769px)': {
+      display: 'block',
+    },
+  },
   appBody: {
-  
     margin: '30px',
     width: '80%',
-    
   },
 });
 
