@@ -1,40 +1,57 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 import NotificationItem from './NotificationItem';
 
-function Notifications({ displayDrawer, listNotifications }) {
-  const drawerStyle = displayDrawer ? styles.drawerOpen : styles.drawerClosed;
+export class Notifications extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isDrawerOpen: this.props.displayDrawer,
+    };
+  }
 
-  return (
-    <div className={css(styles.notificationsContainer)}>
-      {!displayDrawer && (
-        <div className={css(styles.menuItem)} data-testid="menuItem">
-          Your notifications
-        </div>
-      )}
-      {displayDrawer && (
-        <div className={css(styles.notifications, drawerStyle)}>
-          <div className={css(styles.drawerHeader)}>
-            <p className={css(styles.headerText)}>Here is your notification list</p>
-            <button className={css(styles.closeButton)} onClick={() => console.log('Close button has been clicked')}>X</button>
+  componentDidUpdate(prevProps) {
+    if (prevProps.displayDrawer !== this.props.displayDrawer) {
+      this.setState({ isDrawerOpen: this.props.displayDrawer });
+    }
+  }
+
+  render() {
+    const { listNotifications, handleDisplayDrawer, handleHideDrawer, markNotificationAsRead } = this.props;
+    const { isDrawerOpen } = this.state;
+    const drawerStyle = isDrawerOpen ? styles.drawerOpen : styles.drawerClosed;
+
+    return (
+      <div className={css(styles.notificationsContainer)}>
+        {!isDrawerOpen && (
+          <div className={css(styles.menuItem)} data-testid="menuItem" onClick={handleDisplayDrawer}>
+            Your notifications
           </div>
-          <ul className={css(styles.notificationsUl)}>
-            {listNotifications.map((notification) => (
-              <NotificationItem
-                key={notification.id}
-                type={notification.type}
-                value={notification.value}
-                html={notification.html}
-                markAsRead={() => console.log(`Notification ${notification.id} has been marked as read`)}
-                id={notification.id}
-              />
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
+        )}
+        {isDrawerOpen && (
+          <div className={css(styles.notifications, drawerStyle)} data-testid="notifications">
+            <div className={css(styles.drawerHeader)}>
+              <p className={css(styles.headerText)}>Here is your notification list</p>
+              <button className={css(styles.closeButton)} onClick={handleHideDrawer}>X</button>
+            </div>
+            <ul className={css(styles.notificationsUl)}>
+              {listNotifications.map((notification) => (
+                <NotificationItem
+                  key={notification.id}
+                  type={notification.type}
+                  value={notification.value}
+                  html={notification.html}
+                  markAsRead={() => markNotificationAsRead(notification.id)}
+                  id={notification.id}
+                />
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 Notifications.propTypes = {
@@ -49,10 +66,35 @@ Notifications.propTypes = {
       }),
     })
   ).isRequired,
+  handleDisplayDrawer: PropTypes.func.isRequired,
+  handleHideDrawer: PropTypes.func.isRequired,
+  markNotificationAsRead: PropTypes.func,
 };
 
 Notifications.defaultProps = {
   displayDrawer: false,
+  markNotificationAsRead: () => {},
+};
+
+const bounce = {
+  '0%': {
+    transform: 'translateY(0px)',
+  },
+  '50%': {
+    transform: 'translateY(-5px)',
+  },
+  '100%': {
+    transform: 'translateY(0px)',
+  },
+};
+
+const opacityChange = {
+  '0%': {
+    opacity: 0.5,
+  },
+  '100%': {
+    opacity: 1,
+  },
 };
 
 const styles = StyleSheet.create({
@@ -108,10 +150,6 @@ const styles = StyleSheet.create({
     fontSize: '20px',
     cursor: 'pointer',
   },
-  list: {
-    listStyle: 'none',
-    padding: 0,
-  },
   menuItem: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -123,6 +161,11 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-end',
       float: 'right',
       backgroundColor: 'initial',
+    },
+    ':hover': {
+      animationName: [bounce, opacityChange],
+      animationDuration: '0.5s, 1s',
+      animationIterationCount: '3',
     },
   },
   notificationsUl: {
