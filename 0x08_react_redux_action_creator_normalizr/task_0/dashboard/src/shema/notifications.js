@@ -1,5 +1,5 @@
 import notificationsData from "../../notifications.json";
 
-function getAllNotificationsByUser(userId) {
-    return 
+export default function getAllNotificationsByUser(userId) {
+    return notificationsData.filter(items => items.author.id == userId).map(item => item.context)
 }
