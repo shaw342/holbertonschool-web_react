@@ -8,6 +8,7 @@ import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import { StyleSheetTestUtils } from 'aphrodite';
 import AppContext from './AppContext';
+import { mapStateToProps } from './App';
 
 describe('App Component', () => {
   let wrapper;
@@ -112,6 +113,15 @@ describe('App Component', () => {
       wrapper.instance().handleHideDrawer();
       expect(wrapper.state('displayDrawer')).toBe(false);
     });
+
+    describe("test mapStateToProps",()=>{
+      let state = fromJS({
+        isUserLoggedIn: true
+      });
+
+      let result = { isLoggedIn: true } 
+     expect(mapStateToProps(state)).toEqual(result)
+    })
 
     describe('Keyboard events', () => {
       it('calls logOut and updates state when "control" and "h" keys are pressed', () => {
