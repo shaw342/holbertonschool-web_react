@@ -53,14 +53,6 @@ class App extends Component {
     }
   }
 
-  handleDisplayDrawer() {
-    this.setState({ displayDrawer: true });
-  }
-
-  handleHideDrawer() {
-    this.setState({ displayDrawer: false });
-  }
-
   logOut() {
     this.props.dispatch({ type: LOGOUT });
   }
@@ -123,6 +115,7 @@ App.propTypes = {
 
 App.defaultProps = {
   isLoggedIn: false,
+  displayDrawer: false,
 };
 
 export const mapStateToProps = (state) => ({
